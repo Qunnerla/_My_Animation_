@@ -554,6 +554,32 @@
         document.addEventListener('mouseout', function(e) {
             if(e.target.closest('.grid-item')) customCursor.classList.remove('active');
         });
+        /* =========================================
+   ✨ ระบบแอนิเมชันตอนสลับหน้า (Transition) ✨ 
+   ========================================= */
+
+@keyframes smoothEntry {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.98); /* เริ่มจากจางๆ ต่ำลงมานิดนึง และหดตัวเล็กน้อย */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1); /* เด้งกลับมาจุดเดิมแบบสมบูรณ์ */
+    }
+}
+
+/* สั่งให้หน้าหลักและหน้าผลงาน เล่นแอนิเมชันทุกครั้งที่ถูกเปิดขึ้นมา */
+#home-view, #detail-view {
+    animation: smoothEntry 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* เพิ่มกิมมิคให้กล่องผลงานด้านใน ค่อยๆ เด้งตามมา (ดีเลย์ 0.1วิ) */
+.view-group {
+    animation: smoothEntry 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s forwards;
+    opacity: 0; /* ซ่อนไว้ก่อนรอเวลาเด้ง */
+}
     </script>
 </body>
 </html>
+

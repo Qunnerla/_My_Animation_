@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PORTFOLIO</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <title>PORTFOLIO</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         body { margin: 0; background-color: #050505; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
         .container { position: relative; width: 100vw; height: 100vh; touch-action: pan-y; }
@@ -26,7 +27,7 @@
         .controls button { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #fff; background: rgba(255,255,255,0.1); color: white; font-size: 20px; cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s; }
         .controls button:hover { background: #fff; color: #000; }
 
-        /* Navbar & Menu 3 ขีด */
+        /* Navbar & Menu */
         .navbar { position: fixed; top: 0; width: 100%; padding: 30px 50px; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; z-index: 100; mix-blend-mode: difference; }
         .logo { font-size: 1.2rem; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
         .hamburger { cursor: pointer; display: flex; flex-direction: column; gap: 6px; z-index: 101; transition: 0.3s; } 
@@ -35,7 +36,6 @@
         .hamburger.active .line:nth-child(2) { opacity: 0; }
         .hamburger.active .line:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-        /* หน้าต่างเมนูเต็มจอ */
         .nav-menu { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.95); z-index: 90; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.4s ease-in-out; }
         .nav-menu.active { opacity: 1; pointer-events: all; }
         .nav-menu ul { list-style: none; padding: 0; text-align: center; }
@@ -43,13 +43,14 @@
         .nav-menu li:hover { color: #ff416c; transform: scale(1.1); }
         .menu-home { color: #888 !important; font-size: 1.2rem !important; margin-bottom: 40px !important; }
 
+        /* หน้าจอรายละเอียดผลงาน */
         #detail-view { position: absolute; top: 0; left: 0; width: 100%; height: 100vh; background-color: #050505; z-index: 50; padding-top: 100px; overflow-y: auto; box-sizing: border-box; }
-        .detail-header { padding: 0 50px; margin-bottom: 40px; }
+        .detail-header { padding: 0 50px; margin-bottom: 40px; max-width: 1500px; margin-left: auto; margin-right: auto; }
         #back-btn { background: none; border: none; color: #888; font-size: 1rem; cursor: pointer; padding: 0; margin-bottom: 20px; transition: color 0.3s; }
         #back-btn:hover { color: #fff; }
         #detail-title { font-size: 4rem; margin: 0; text-transform: uppercase; }
 
-        .profile-container { display: flex; gap: 50px; padding: 0 50px 100px 50px; flex-wrap: wrap; }
+        .profile-container { display: flex; gap: 50px; padding: 0 50px 100px 50px; flex-wrap: wrap; max-width: 1500px; margin: 0 auto; }
         .profile-image-box { flex: 1; min-width: 300px; max-width: 450px; }
         .profile-image-box img { width: 100%; border-radius: 20px; box-shadow: 0 10px 30px rgba(255,255,255,0.05); object-fit: cover; }
         .profile-info-box { flex: 2; min-width: 300px; }
@@ -64,127 +65,78 @@
         .skill-logo { width: 24px; height: 24px; object-fit: contain; border-radius: 4px; }
         .progress-bar-bg { width: 100%; height: 10px; background-color: #222; border-radius: 10px; overflow: hidden; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, #ff416c, #ff4b2b); border-radius: 10px; transition: width 1.5s ease-in-out; }
-
         .contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .contact-item { background: #111; padding: 15px 20px; border-radius: 10px; border: 1px solid #222; display: flex; align-items: center; gap: 10px; }
 
-        /* 1. จัดกลุ่มผลงานเป็นคอลัมน์ (Pinterest Style) */
-        .project-group { 
-            column-count: 3; 
-            column-gap: 20px; 
-            padding: 0 50px 100px 50px; 
+        /* เมาส์ */
+        .cursor { width: 40px; height: 40px; border: 1px solid white; border-radius: 50%; position: fixed; pointer-events: none; transform: translate(-50%, -50%); z-index: 999; transition: width 0.3s, height 0.3s, background-color 0.3s; mix-blend-mode: difference; display: none; }
+        .cursor.active { width: 60px; height: 60px; background-color: rgba(255,255,255,0.2); backdrop-filter: blur(2px); }
+
+        @media (max-width: 768px) {
+            .controls { display: none; }
+            .content { width: 80%; left: 10%; }
+            .name { font-size: 2rem; }
         }
 
-        /* 2. กล่องผลงาน */
+        /* 🔴 โค้ดสำหรับระบบ 3D Coverflow (จัดระเบียบใหม่ ล้างขอบเทา) 🔴 */
+        .project-group {
+            padding: 0 !important;
+            display: none; 
+        }
+        /* เปิดให้เฉพาะหน้าที่คลิก */
+        .project-group[style*="display: grid"] {
+            display: block !important;
+        }
+
+        .swiper {
+            width: 100%;
+            padding-top: 50px;
+            padding-bottom: 100px;
+        }
+
+        /* ตั้งค่าให้ปรับความกว้างตามสัดส่วนรูปภาพจริงอัตโนมัติ */
+        .swiper-slide {
+            width: auto !important; /* ปล่อยอิสระ ให้สัดส่วนรูปคุม */
+            height: 65vh; /* ล็อกความสูงไว้ที่ 65% ของจอ เพื่อให้เท่ากันหมด */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        /* กล่องเก็บงาน แก้ให้ไม่มีสีพื้นหลัง (โปร่งใส) ขอบเทาจะได้หายไป */
         .grid-item { 
             position: relative; 
-            width: 100%; 
-            margin-bottom: 20px; 
-            break-inside: avoid; 
+            width: auto; 
+            height: 100%;
+            background: transparent !important; 
+            border-radius: 15px;
             overflow: hidden; 
             cursor: none; 
-            background: #111; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6); /* เพิ่มเงาให้รูปดูป๊อปอัปขึ้นมา */
         }
 
-        /* 3. รูปภาพให้ปรับความสูงตามจริง */
-        .grid-item img { 
-            width: 100%; 
-            height: auto; 
+        .grid-item img, .grid-item video { 
+            width: auto; 
+            height: 100%; 
             display: block; 
-            object-fit: cover; 
+            object-fit: cover; /* ทำให้รูปไม่เบี้ยว */
             transition: transform 0.8s ease; 
         }
 
-        /* 4. วิดีโอ Animation เล่นอัตโนมัติ */
-        .grid-item video { 
-            width: 100%; 
-            height: auto; 
-            border: none; 
-            display: block;
-            object-fit: cover;
-            transition: transform 0.8s ease; 
-        }
-
-        /* เพิ่มให้วิดีโอ/รูป ซูมขึ้นตอนเอาเมาส์ชี้ */
         .grid-item:hover img, .grid-item:hover video { 
-            transform: scale(1.05); 
+            transform: scale(1.03); 
         }
 
-        /* การตั้งค่า Hover แถบดำด้านล่าง */
+        /* การตั้งค่า Hover แถบดำด้านล่างให้พอดีกับรูป */
         .overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); box-sizing: border-box; opacity: 0; transform: translateY(20px); transition: all 0.4s ease; pointer-events: none; }
         .grid-item:hover .overlay { opacity: 1; transform: translateY(0); }
         .overlay h3 { margin: 0; font-size: 1.5rem; } 
         .overlay p { margin: 5px 0 0 0; color: #ccc; font-size: 0.9rem; }
 
-        .cursor { width: 40px; height: 40px; border: 1px solid white; border-radius: 50%; position: fixed; pointer-events: none; transform: translate(-50%, -50%); z-index: 999; transition: width 0.3s, height 0.3s, background-color 0.3s; mix-blend-mode: difference; display: none; }
-        .cursor.active { width: 60px; height: 60px; background-color: rgba(255,255,255,0.2); backdrop-filter: blur(2px); }
-
-        /* ปรับให้รองรับมือถือ */
         @media (max-width: 768px) {
-            .controls { display: none; }
-            .content { width: 80%; left: 10%; }
-            .name { font-size: 2rem; }
-            .project-group {
-                column-count: 1;
-                padding: 0 20px 100px 20px;
-            }
+            .swiper-slide { height: 50vh; }
         }
-        /* 🔴 โค้ดพิเศษ: แก้ปัญหาภาพขยายใหญ่เกินไปบนจอคอม 34 นิ้ว (Ultrawide) 🔴 */
-/* 1. บังคับให้หน้ารวมผลงานกว้างสุดแค่ 1500px แล้วจัดให้อยู่ตรงกลางจอ */
-.view-group, .detail-header {
-    max-width: 1500px;
-    margin: 0 auto;
-}
-
-/* 2. บังคับให้พื้นที่หัวข้อ (Title) ขยับมาอยู่ตรงกลางด้วย */
-.detail-header {
-    margin-bottom: 40px;
-}
-
-/* 3. ถ้าคนดูใช้จอใหญ่มากๆ ให้แบ่งรูปเป็น 4 หรือ 5 คอลัมน์ไปเลย ภาพจะได้สัดส่วนสวยงาม */
-@media (min-width: 1400px) {
-    .project-group { column-count: 4; }
-}
-
-@media (min-width: 1800px) {
-    .project-group { column-count: 5; }
-}
-/* 🔴 โค้ดสำหรับระบบ 3D Coverflow 🔴 */
-.project-group {
-    column-count: auto !important; /* ยกเลิกระบบเรียงคอลัมน์แบบเก่า */
-    padding: 0 !important;
-}
-
-/* บังคับให้โชว์วงล้อ "เฉพาะตอนที่เรากดเปิดหน้านั้นๆ" เท่านั้น */
-.project-group[style*="display: grid"] {
-    display: block !important;
-}
-
-.swiper {
-    width: 100%;
-    padding-top: 50px;
-    padding-bottom: 100px;
-}
-
-/* ขนาดของรูปและวิดีโอในวงล้อ (ปรับความกว้างได้ตามชอบ) */
-.swiper-slide {
-    background-position: center;
-    background-size: cover;
-    width: 600px; /* สำหรับจอคอม 34 นิ้ว ใช้ 600px หรือ 800px ได้เลย */
-    height: auto;
-    transition: 0.3s;
-}
-
-/* ลบ margin เก่าทิ้ง */
-.swiper-slide.grid-item {
-    margin-bottom: 0 !important;
-    border-radius: 10px;
-}
-
-/* รองรับมือถือให้รูปเล็กลง */
-@media (max-width: 768px) {
-    .swiper-slide { width: 300px; }
-}    
     </style>
 </head>
 <body>
@@ -572,8 +524,8 @@
 
         <div id="year4-projects" class="view-group project-group" style="display: none;">
             <div class="grid-item">
-                <img src="0" alt="Work">
-                <div class="overlay"><h3></h3><p>Year 4</p></div>
+                <img src="https://i.postimg.cc/Qddy9mYz/Artboard-4.jpg" alt="Coming Soon">
+                <div class="overlay"><h3>Coming Soon</h3><p>Year 4 Projects</p></div>
             </div>
         </div>
 
@@ -645,8 +597,10 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
     <script>
-        // --- 1. ระบบกดปุ่มลูกศร ---
+        // --- 1. ระบบกดปุ่มลูกศรหน้าแรก ---
         function slideNext() {
             let lists = document.querySelectorAll('#home-view .item');
             document.getElementById('slide').appendChild(lists[0]);
@@ -658,14 +612,12 @@
         document.getElementById('next').onclick = slideNext;
         document.getElementById('prev').onclick = slidePrev;
 
-        // --- 2. ระบบใช้นิ้วปัด (Swipe) เลื่อนหน้าจอ ---
+        // --- 2. ระบบใช้นิ้วปัด (Swipe) เลื่อนหน้าแรก ---
         let startX = 0;
         let endX = 0;
         const homeContainer = document.getElementById('home-view');
 
-        homeContainer.addEventListener('touchstart', e => {
-            startX = e.changedTouches[0].screenX;
-        });
+        homeContainer.addEventListener('touchstart', e => { startX = e.changedTouches[0].screenX; });
         homeContainer.addEventListener('touchend', e => {
             endX = e.changedTouches[0].screenX;
             if (startX - endX > 50) slideNext(); 
@@ -679,23 +631,63 @@
             if (endX - startX > 50) slidePrev();
         });
 
-        // --- 3. ระบบเมนู 3 ขีด (Hamburger) ---
+        // --- 3. ระบบเมนู 3 ขีด ---
         const hamburgerBtn = document.getElementById('hamburger-btn');
         const navMenu = document.getElementById('nav-menu');
-
         function toggleMenu() {
             hamburgerBtn.classList.toggle('active');
             navMenu.classList.toggle('active');
         }
         hamburgerBtn.addEventListener('click', toggleMenu);
 
-        // --- 4. ระบบเปลี่ยนหน้า ---
+        // --- 4. ระบบเปลี่ยนหน้าและการเรียก 3D Coverflow ---
         const homeView = document.getElementById('home-view');
         const detailView = document.getElementById('detail-view');
         const backBtn = document.getElementById('back-btn');
         const detailTitle = document.getElementById('detail-title');
         const customCursor = document.getElementById('custom-cursor');
 
+        // ฟังก์ชันสร้าง Swiper วงล้อ 3D
+        function initSwiper() {
+            document.querySelectorAll('.project-group').forEach((group, index) => {
+                if (group.querySelector('.swiper')) return; // ถ้าเคยสร้างแล้วไม่ต้องสร้างซ้ำ
+
+                const swiperContainer = document.createElement('div');
+                swiperContainer.className = `swiper mySwiper-${index}`;
+                
+                const swiperWrapper = document.createElement('div');
+                swiperWrapper.className = 'swiper-wrapper';
+
+                const items = Array.from(group.querySelectorAll('.grid-item'));
+                items.forEach(item => {
+                    item.classList.add('swiper-slide');
+                    swiperWrapper.appendChild(item);
+                });
+
+                swiperContainer.appendChild(swiperWrapper);
+                group.appendChild(swiperContainer);
+
+                new Swiper(`.mySwiper-${index}`, {
+                    effect: "coverflow",
+                    grabCursor: true,
+                    centeredSlides: true,
+                    slidesPerView: "auto",
+                    coverflowEffect: {
+                        rotate: 35, // องศาความเอียง
+                        stretch: 0,
+                        depth: 350, // ความลึก
+                        modifier: 1,
+                        slideShadows: true, // เปิดเงาดำเพื่อความสมจริง
+                    },
+                    keyboard: { enabled: true },
+                    mousewheel: true,
+                    observer: true, 
+                    observeParents: true,
+                });
+            });
+        }
+
+        // กดที่ปุ่มหน้าแฟ้ม หรือ เมนู
         document.querySelectorAll('.open-folder, .menu-link').forEach(button => {
             button.addEventListener('click', function() {
                 if (navMenu.classList.contains('active')) toggleMenu();
@@ -708,16 +700,23 @@
 
                 const targetId = this.getAttribute('data-target');
                 const displayType = this.getAttribute('data-type');
-                document.getElementById(targetId).style.display = displayType;
-
+                const targetSection = document.getElementById(targetId);
+                
+                targetSection.style.display = displayType;
+                
                 homeView.style.display = 'none';
                 detailView.style.display = 'block';
                 
-                if(displayType === 'grid') customCursor.style.display = 'block';
-                else customCursor.style.display = 'none';
+                if(displayType === 'grid') {
+                    customCursor.style.display = 'block';
+                    initSwiper(); // สั่งให้วงล้อทำงานเมื่อกดเข้าหน้าผลงาน
+                } else {
+                    customCursor.style.display = 'none';
+                }
             });
         });
 
+        // ปุ่มย้อนกลับ
         document.getElementById('menu-home-btn').addEventListener('click', function() {
             if (navMenu.classList.contains('active')) toggleMenu();
             homeView.style.display = 'block';
@@ -731,63 +730,23 @@
             customCursor.style.display = 'none';
         });
 
-// --- 5. เมาส์วงกลม ---
-window.addEventListener('mousemove', function(e) {
-    customCursor.style.left = e.clientX + 'px';
-    customCursor.style.top = e.clientY + 'px';
-});
-
-document.querySelectorAll('.grid-item').forEach(item => {
-    item.addEventListener('mouseenter', () => customCursor.classList.add('active'));
-    item.addEventListener('mouseleave', () => customCursor.classList.remove('active'));
-});
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-<script>
-// --- 6. ระบบ 3D Coverflow (Swiper.js) ---
-setTimeout(() => {
-    document.querySelectorAll('.project-group').forEach((group, index) => {
-        const swiperContainer = document.createElement('div');
-        swiperContainer.className = `swiper mySwiper-${index}`;
-        
-        const swiperWrapper = document.createElement('div');
-        swiperWrapper.className = 'swiper-wrapper';
-
-        const items = Array.from(group.querySelectorAll('.grid-item'));
-        items.forEach(item => {
-            item.classList.add('swiper-slide');
-            swiperWrapper.appendChild(item);
+        // --- 5. เมาส์วงกลม ---
+        window.addEventListener('mousemove', function(e) {
+            customCursor.style.left = e.clientX + 'px';
+            customCursor.style.top = e.clientY + 'px';
         });
 
-        swiperContainer.appendChild(swiperWrapper);
-        group.appendChild(swiperContainer);
-
-        new Swiper(`.mySwiper-${index}`, {
-            effect: "coverflow",
-            grabCursor: true,
-            centeredSlides: true,
-            slidesPerView: "auto",
-            coverflowEffect: {
-                rotate: 40,
-                stretch: 0,
-                depth: 300,
-                modifier: 1,
-                slideShadows: true,
-            },
-            keyboard: { enabled: true },
-            mousewheel: true,
-            observer: true, 
-            observeParents: true,
+        // ให้เมาส์วงกลมทำงานร่วมกับ Swiper ได้
+        document.addEventListener('mouseover', function(e) {
+            if(e.target.closest('.grid-item')) {
+                customCursor.classList.add('active');
+            }
         });
-    });
-}, 500);
-</script>
-
+        document.addEventListener('mouseout', function(e) {
+            if(e.target.closest('.grid-item')) {
+                customCursor.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
-
-
-
-

@@ -129,6 +129,27 @@
                 padding: 0 20px 100px 20px;
             }
         }
+        /* 🔴 โค้ดพิเศษ: แก้ปัญหาภาพขยายใหญ่เกินไปบนจอคอม 34 นิ้ว (Ultrawide) 🔴 */
+
+/* 1. บังคับให้หน้ารวมผลงานกว้างสุดแค่ 1500px แล้วจัดให้อยู่ตรงกลางจอ */
+.view-group, .detail-header {
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+/* 2. บังคับให้พื้นที่หัวข้อ (Title) ขยับมาอยู่ตรงกลางด้วย */
+.detail-header {
+    margin-bottom: 40px;
+}
+
+/* 3. ถ้าคนดูใช้จอใหญ่มากๆ ให้แบ่งรูปเป็น 4 หรือ 5 คอลัมน์ไปเลย ภาพจะได้สัดส่วนสวยงาม */
+@media (min-width: 1400px) {
+    .project-group { column-count: 4; }
+}
+
+@media (min-width: 1800px) {
+    .project-group { column-count: 5; }
+}
     </style>
 </head>
 <body>
@@ -688,3 +709,4 @@
     </script>
 </body>
 </html>
+
